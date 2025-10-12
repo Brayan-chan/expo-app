@@ -1,6 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { MapPin, Thermometer, Droplets, AlertTriangle } from 'lucide-react-native';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { Stack } from 'expo-router';
 
 export default function HomeScreen() {
@@ -18,8 +18,11 @@ export default function HomeScreen() {
           title: '',
           headerLeft: () => (
             <View style={styles.headerLeft}>
-              <Text style={styles.beeIcon}>🐝</Text>
-              <Text style={styles.headerTitle}>{t.apiaryIQ}</Text>
+              <Image 
+                source={require('@/assets/images/favicon.png')}
+                style={styles.beeIcon}
+              />
+              <Text style={styles.headerTitle}>{t.KaabTech}</Text>
             </View>
           ),
           headerRight: () => (
@@ -54,7 +57,7 @@ export default function HomeScreen() {
 
           <View style={styles.locationInfo}>
             <Text style={styles.locationLabel}>{t.location}:</Text>
-            <Text style={styles.locationValue}>Apiary 1</Text>
+            <Text style={styles.locationValue}>{t.hive} 1</Text>
           </View>
 
           <View style={styles.humidityRow}>
@@ -96,7 +99,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   beeIcon: {
-    fontSize: 28,
+    width: 70,
+    height: 70,
+    resizeMode: 'contain',
   },
   headerTitle: {
     fontSize: 22,
