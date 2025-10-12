@@ -37,7 +37,7 @@ const translations: Record<Language, Translations> = {
     noPesticidesDetected: 'NO SE DETECTARON\nPESTICIDAS',
   },
   maya: {
-    home: 'Najil',
+    home: 'Káajal',
     sensors: "K'ajóol",
     history: 'Sáamal',
     settings: 'Jats\'uts',
