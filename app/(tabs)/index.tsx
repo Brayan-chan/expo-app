@@ -1,98 +1,221 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { MapPin, Thermometer, Droplets, AlertTriangle } from 'lucide-react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Stack } from 'expo-router';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const { t, language, toggleLanguage } = useLanguage();
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: '#B8D4D0',
+          },
+          headerShadowVisible: false,
+          title: '',
+          headerLeft: () => (
+            <View style={styles.headerLeft}>
+              <Text style={styles.beeIcon}>🐝</Text>
+              <Text style={styles.headerTitle}>{t.apiaryIQ}</Text>
+            </View>
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={toggleLanguage} style={styles.languageButton}>
+              <Text style={styles.languageButtonText}>
+                {language === 'es' ? 'ES' : 'MAYA'}
+              </Text>
+            </TouchableOpacity>
+          ),
+        }}
+      />
+      <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        <View style={styles.hiveInfoCard}>
+          <Text style={styles.hiveInfoText}>
+            {t.hiveId}: A002 · {t.status}: {t.healthy}
+          </Text>
+        </View>
+
+        <View style={styles.environmentCard}>
+          <Text style={styles.cardTitle}>{t.internalEnvironment}</Text>
+
+          <View style={styles.temperatureRow}>
+            <View style={styles.temperatureLeft}>
+              <Thermometer size={28} color="#2C3E50" strokeWidth={2} />
+              <Text style={styles.temperatureValue}>35.8°C</Text>
+            </View>
+
+            <View style={styles.locationBadge}>
+              <MapPin size={24} color="#2C3E50" strokeWidth={2} />
+            </View>
+          </View>
+
+          <View style={styles.locationInfo}>
+            <Text style={styles.locationLabel}>{t.location}:</Text>
+            <Text style={styles.locationValue}>Apiary 1</Text>
+          </View>
+
+          <View style={styles.humidityRow}>
+            <Thermometer size={24} color="#2C3E50" strokeWidth={2} />
+            <Text style={styles.humidityValue}>68%</Text>
+          </View>
+
+          <View style={styles.humidityLabel}>
+            <Droplets size={20} color="#2C3E50" strokeWidth={2} />
+            <Text style={styles.humidityText}>{t.humidity}</Text>
+          </View>
+        </View>
+
+        <View style={styles.pesticideCard}>
+          <Text style={styles.pesticideTitle}>{t.pesticideAlert}</Text>
+
+          <View style={styles.pesticideContent}>
+            <AlertTriangle size={32} color="#2C3E50" strokeWidth={2} />
+            <Text style={styles.pesticideText}>{t.noPesticidesDetected}</Text>
+          </View>
+        </View>
+      </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: '#B8D4D0',
+  },
+  contentContainer: {
+    padding: 16,
+    paddingBottom: 32,
+  },
+  headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
+  beeIcon: {
+    fontSize: 28,
+  },
+  headerTitle: {
+    fontSize: 22,
+    fontWeight: '600' as const,
+    color: '#2C3E50',
+  },
+  languageButton: {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    marginRight: 8,
+  },
+  languageButtonText: {
+    fontSize: 12,
+    fontWeight: '600' as const,
+    color: '#2C3E50',
+  },
+  hiveInfoCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+  },
+  hiveInfoText: {
+    fontSize: 15,
+    color: '#2C3E50',
+    fontWeight: '500' as const,
+  },
+  environmentCard: {
+    backgroundColor: '#D1D9D9',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: '600' as const,
+    color: '#2C3E50',
+    marginBottom: 20,
+  },
+  temperatureRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  temperatureLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  temperatureValue: {
+    fontSize: 48,
+    fontWeight: '700' as const,
+    color: '#2C3E50',
+  },
+  locationBadge: {
+    backgroundColor: '#FFFFFF',
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  locationInfo: {
+    marginBottom: 24,
+  },
+  locationLabel: {
+    fontSize: 14,
+    fontWeight: '600' as const,
+    color: '#2C3E50',
+    marginBottom: 2,
+  },
+  locationValue: {
+    fontSize: 14,
+    color: '#5A6C6C',
+  },
+  humidityRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  humidityValue: {
+    fontSize: 40,
+    fontWeight: '700' as const,
+    color: '#2C3E50',
+  },
+  humidityLabel: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  humidityText: {
+    fontSize: 16,
+    color: '#2C3E50',
+    fontWeight: '500' as const,
+  },
+  pesticideCard: {
+    backgroundColor: '#F5EDD1',
+    borderRadius: 16,
+    padding: 20,
+  },
+  pesticideTitle: {
+    fontSize: 18,
+    fontWeight: '600' as const,
+    color: '#2C3E50',
+    marginBottom: 16,
+  },
+  pesticideContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  pesticideText: {
+    fontSize: 16,
+    fontWeight: '600' as const,
+    color: '#2C3E50',
+    lineHeight: 22,
   },
 });

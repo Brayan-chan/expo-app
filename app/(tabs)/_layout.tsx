@@ -1,33 +1,54 @@
 import { Tabs } from 'expo-router';
+import { Home, Radio, Calendar, Settings } from 'lucide-react-native';
 import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { t } = useLanguage();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: '#2C3E50',
+        tabBarInactiveTintColor: '#8A9A9A',
+        tabBarStyle: {
+          backgroundColor: '#FFFFFF',
+          borderTopWidth: 1,
+          borderTopColor: '#E0E0E0',
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '500' as const,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: t.home,
+          tabBarIcon: ({ color, size }) => <Home color={color} size={size} strokeWidth={2} />,
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="sensors"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: t.sensors,
+          tabBarIcon: ({ color, size }) => <Radio color={color} size={size} strokeWidth={2} />,
+        }}
+      />
+      <Tabs.Screen
+        name="history"
+        options={{
+          title: t.history,
+          tabBarIcon: ({ color, size }) => <Calendar color={color} size={size} strokeWidth={2} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: t.settings,
+          tabBarIcon: ({ color, size }) => <Settings color={color} size={size} strokeWidth={2} />,
         }}
       />
     </Tabs>
