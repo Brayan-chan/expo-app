@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "expo-app",
-    "slug": "0kh9cfvkxv1fxxlyhprhj",
+    "name": "Kaab Tech",
+    "slug": "kaabtech",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "kaabtech",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "app.rork.0kh9cfvkxv1fxxlyhprhj"
+      "package": "com.kaabtech.app"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -31,12 +31,21 @@
       [
         "expo-router",
         {
-          "origin": "https://rork.com/"
+          "origin": "https://github.com/"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": "https://github.com/"
+      },
+      "eas": {
+        "projectId": "4c02f974-cf41-4954-88e3-5463a7b77899"
+      }
+    },
+    "owner": "brayan-chan"
   }
 }
