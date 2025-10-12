@@ -9,7 +9,8 @@ interface Translations {
   sensors: string;
   history: string;
   settings: string;
-  apiaryIQ: string;
+  KaabTech: string;
+  hive: string;
   hiveId: string;
   status: string;
   healthy: string;
@@ -26,7 +27,8 @@ const translations: Record<Language, Translations> = {
     sensors: 'Sensores',
     history: 'Historial',
     settings: 'Ajustes',
-    apiaryIQ: 'Apiary IQ',
+    KaabTech: 'Kaab Tech',
+    hive: 'Colmena',
     hiveId: 'ID Colmena',
     status: 'Estado',
     healthy: 'Saludable',
@@ -41,7 +43,8 @@ const translations: Record<Language, Translations> = {
     sensors: "K'ajóol",
     history: 'Sáamal',
     settings: 'Jats\'uts',
-    apiaryIQ: 'Apiary IQ',
+    KaabTech: 'Kaab Tech',
+    hive: 'Kaab',
     hiveId: "Kaab' ID",
     status: 'Jats\'uts',
     healthy: 'Jats\'uts',
@@ -53,7 +56,7 @@ const translations: Record<Language, Translations> = {
   },
 };
 
-const LANGUAGE_STORAGE_KEY = '@apiary_language';
+const LANGUAGE_STORAGE_KEY = '@kaab_tech_language';
 
 export const [LanguageProvider, useLanguage] = createContextHook(() => {
   const [language, setLanguageState] = useState<Language>('es');
