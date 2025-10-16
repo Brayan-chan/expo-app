@@ -13,53 +13,68 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 export type Language = 'es' | 'maya';
 
 interface Translations {
+  alert: string;
   home: string;
   sensors: string;
   history: string;
   settings: string;
   KaabTech: string;
   hive: string;
+  selectHive: string;
+  searchHive: string;
   hiveId: string;
   status: string;
   healthy: string;
+  externalTemperature: string;
   internalTemperature: string;
   location: string;
   humidity: string;
   pesticideAlert: string;
+  pesticidesDetected: string;
   noPesticidesDetected: string;
 }
 
 const translations: Record<Language, Translations> = {
   es: {
+    alert: 'Alerta',
     home: 'Inicio',
     sensors: 'Sensores',
     history: 'Historial',
     settings: 'Ajustes',
     KaabTech: 'Kaab Tech',
     hive: 'Colmena',
+    selectHive: 'Seleccionar Colmena',
+    searchHive: 'Buscar Colmena',
     hiveId: 'ID Colmena',
     status: 'Estado',
     healthy: 'Saludable',
+    externalTemperature: 'Temperatura Externa',
     internalTemperature: 'Temperatura Interna',
     location: 'Ubicación',
     humidity: 'Humedad',
     pesticideAlert: 'Alerta de Pesticidas',
+    pesticidesDetected: 'PESTICIDAS DETECTADOS',
     noPesticidesDetected: 'NO SE DETECTARON\nPESTICIDAS',
   },
   maya: {
+    alert: 'Xíiw',
     home: 'Káajal',
     sensors: "K'ajóol",
     history: 'Sáamal',
     settings: 'Jats\'uts',
     KaabTech: 'Kaab Tech',
     hive: 'Kaab',
+    selectHive: "T'aan u kaab'",
+    searchHive: "T'aan u kaab'",
     hiveId: "Kaab' ID",
     status: 'Jats\'uts',
     healthy: 'Jats\'uts',
+    externalTemperature: "p'áatal ichil",
     internalTemperature: "k’i’ik’el ichil",
     location: "Tu'ux yaan",
     humidity: 'Ja\'il',
     pesticideAlert: "K'áax Xíiw",
+    pesticidesDetected: 'PESTICIDAS DETECTADOS',
     noPesticidesDetected: "MA' YAN K'ÁAX\nXÍIW",
   },
 };
