@@ -65,6 +65,15 @@ export default function HomeScreen() {
           </Text>
         </View>
 
+        <View style={styles.pesticideCard}>
+          <Text style={styles.pesticideTitle}>{t.pesticideAlert}</Text>
+
+          <View style={styles.pesticideContent}>
+            <AlertTriangle size={32} color="#2C3E50" strokeWidth={2} />
+            <Text style={styles.pesticideText}>{t.noPesticidesDetected}</Text>
+          </View>
+        </View>
+
         <View style={styles.environmentCard}>
           <Text style={styles.cardTitle}>{t.internalTemperature}</Text>
 
@@ -92,15 +101,6 @@ export default function HomeScreen() {
           <View style={styles.humidityLabel}>
             <Droplets size={20} color="#2C3E50" strokeWidth={2} />
             <Text style={styles.humidityText}>{t.humidity}</Text>
-          </View>
-        </View>
-
-        <View style={styles.pesticideCard}>
-          <Text style={styles.pesticideTitle}>{t.pesticideAlert}</Text>
-
-          <View style={styles.pesticideContent}>
-            <AlertTriangle size={32} color="#2C3E50" strokeWidth={2} />
-            <Text style={styles.pesticideText}>{t.noPesticidesDetected}</Text>
           </View>
         </View>
       </ScrollView>
@@ -229,6 +229,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5EDD1',
     borderRadius: 16,
     padding: 20,
+    marginBottom: 16,
   },
   pesticideTitle: {
     fontSize: 18,
