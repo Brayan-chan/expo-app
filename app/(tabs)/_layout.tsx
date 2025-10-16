@@ -10,7 +10,7 @@
  */
 
 import { Tabs } from 'expo-router';
-import { Home, Radio, Calendar, Settings } from 'lucide-react-native';
+import { Home, Calendar, Settings } from 'lucide-react-native';
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -59,16 +59,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="sensors"
-        options={{
-          title: t.sensors,
-          tabBarIcon: ({ color, size }) => <Radio color={color} size={size} strokeWidth={2} />,
-        }}
-      />
-      <Tabs.Screen
         name="history"
         options={{
           title: t.history,
+          tabBarLabel: t.history,
           tabBarIcon: ({ color, size }) => <Calendar color={color} size={size} strokeWidth={2} />,
         }}
       />
@@ -76,6 +70,7 @@ export default function TabLayout() {
         name="settings"
         options={{
           title: t.settings,
+          tabBarLabel: t.settings,
           tabBarIcon: ({ color, size }) => <Settings color={color} size={size} strokeWidth={2} />,
         }}
       />
