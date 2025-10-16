@@ -12,7 +12,7 @@
 
 import { useLanguage } from '@/contexts/LanguageContext';
 import { MapPin, Thermometer, Droplets, AlertTriangle, ChevronDown, Search } from 'lucide-react-native';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput, Modal, FlatList } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput, Modal, FlatList, Linking } from 'react-native';
 import { Stack } from 'expo-router';
 import { MOCK_HIVES, Hive } from '@/mocks/hives';
 import { useState, useMemo } from 'react';
@@ -45,6 +45,16 @@ export default function HomeScreen() {
         hive.location.toLowerCase().includes(query)
     );
   }, [searchQuery]);
+
+  const openMaps = (location: string) => {
+    // Crear URL para Google Maps con la ubicación
+    const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`;
+    
+    // Abrir la URL
+    Linking.openURL(url).catch(err => {
+      console.error('Error al abrir Maps:', err);
+    });
+  };
 
   return (
     <>
@@ -112,7 +122,13 @@ export default function HomeScreen() {
             </View>
 
             <View style={styles.locationBadge}>
-              <MapPin size={24} color="#2C3E50" strokeWidth={2} />
+              <TouchableOpacity 
+                style={styles.locationBadge}
+                onPress={() => openMaps(selectedHive.location)}
+                activeOpacity={0.7}
+              >
+                <MapPin size={24} color="#2C3E50" strokeWidth={2} />
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.locationInfo}>
