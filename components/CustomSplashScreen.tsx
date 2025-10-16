@@ -1,3 +1,17 @@
+/**
+ * @fileoverview Componente de pantalla de carga personalizada
+ * 
+ * Este componente implementa la pantalla de carga inicial de la aplicación.
+ * Muestra el logo de Kaab Tech, una barra de progreso animada y los logos
+ * de las instituciones asociadas.
+ * 
+ * @component
+ * @example
+ * return (
+ *   <CustomSplashScreen />
+ * )
+ */
+
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import * as Progress from 'react-native-progress';
