@@ -22,7 +22,7 @@ interface Translations {
   hiveId: string;
   status: string;
   healthy: string;
-  internalEnvironment: string;
+  internalTemperature: string;
   location: string;
   humidity: string;
   pesticideAlert: string;
@@ -40,7 +40,7 @@ const translations: Record<Language, Translations> = {
     hiveId: 'ID Colmena',
     status: 'Estado',
     healthy: 'Saludable',
-    internalEnvironment: 'Ambiente Interno',
+    internalTemperature: 'Temperatura Interna',
     location: 'Ubicación',
     humidity: 'Humedad',
     pesticideAlert: 'Alerta de Pesticidas',
@@ -56,7 +56,7 @@ const translations: Record<Language, Translations> = {
     hiveId: "Kaab' ID",
     status: 'Jats\'uts',
     healthy: 'Jats\'uts',
-    internalEnvironment: "Ichil K'iin",
+    internalTemperature: "k’i’ik’el ichil",
     location: "Tu'ux yaan",
     humidity: 'Ja\'il',
     pesticideAlert: "K'áax Xíiw",
