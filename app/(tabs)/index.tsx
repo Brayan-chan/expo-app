@@ -1,9 +1,33 @@
+/**
+ * @fileoverview Pantalla principal (Home)
+ * 
+ * Muestra información general sobre la colmena activa, incluyendo:
+ * - Estado general de la colmena
+ * - Condiciones ambientales internas
+ * - Alertas y notificaciones
+ * - Acceso rápido a funciones principales
+ * 
+ * @module HomeScreen
+ */
+
 import { useLanguage } from '@/contexts/LanguageContext';
 import { MapPin, Thermometer, Droplets, AlertTriangle } from 'lucide-react-native';
 import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { Stack } from 'expo-router';
 
+/**
+ * Pantalla principal de la aplicación
+ * 
+ * Características:
+ * - Header personalizado con logo y selector de idioma
+ * - Información del estado de la colmena
+ * - Mediciones ambientales en tiempo real
+ * - Sistema de alertas y notificaciones
+ * 
+ * @returns {React.ReactElement} Pantalla principal
+ */
 export default function HomeScreen() {
+  // Hooks para manejo de idiomas
   const { t, language, toggleLanguage } = useLanguage();
 
   return (
