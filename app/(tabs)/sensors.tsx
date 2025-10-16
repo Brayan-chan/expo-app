@@ -1,8 +1,32 @@
+/**
+ * @fileoverview Pantalla de monitoreo de sensores
+ * 
+ * Muestra información detallada de todos los sensores activos, incluyendo:
+ * - Estado de cada sensor
+ * - Lecturas en tiempo real
+ * - Gráficos de tendencias
+ * - Configuración de alertas
+ * 
+ * @module SensorsScreen
+ */
+
 import { useLanguage } from '@/contexts/LanguageContext';
 import { StyleSheet, Text, View } from 'react-native';
 import { Stack } from 'expo-router';
 
+/**
+ * Pantalla de monitoreo de sensores
+ * 
+ * Permite visualizar y gestionar todos los sensores de la colmena:
+ * - Lista de sensores activos
+ * - Estado de cada sensor
+ * - Lecturas detalladas
+ * - Configuración de umbrales
+ * 
+ * @returns {React.ReactElement} Pantalla de sensores
+ */
 export default function SensorsScreen() {
+  // Hook para traducción de textos
   const { t } = useLanguage();
 
   return (
