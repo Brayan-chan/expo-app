@@ -66,7 +66,7 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.environmentCard}>
-          <Text style={styles.cardTitle}>{t.internalEnvironment}</Text>
+          <Text style={styles.cardTitle}>{t.internalTemperature}</Text>
 
           <View style={styles.temperatureRow}>
             <View style={styles.temperatureLeft}>
