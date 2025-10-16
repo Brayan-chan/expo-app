@@ -1,19 +1,34 @@
-# Welcome to your Expo app 👋
+# 🐝 Kaab Tech - Aplicación de Monitoreo de Colmenas
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+## Descripción
+Kaab Tech es una aplicación móvil desarrollada con React Native y Expo para el monitoreo y gestión de colmenas. La aplicación permite visualizar datos en tiempo real de sensores, historial de mediciones y configuraciones del sistema.
+
+## Estructura del Proyecto
+
+### Carpetas Principales
+- `/app`: Contiene la lógica principal de navegación y pantallas usando Expo Router
+  - `/(tabs)`: Implementación de la navegación por tabs
+  - `_layout.tsx`: Configuración principal de la navegación
+  - `+not-found.tsx`: Pantalla de error 404
+
+### Componentes y Contextos
+- `/components`: Componentes reutilizables
+- `/contexts`: Contextos de React para el manejo de estado global
+- `/constants`: Constantes y configuraciones globales
+- `/assets`: Recursos estáticos (imágenes, fuentes, etc.)
 
 ## Get started
 
 1. Install dependencies
 
    ```bash
-   npm install
+   bun install
    ```
 
 2. Start the app
 
    ```bash
-   npx expo start
+   bunx expo start --clear
    ```
 
 In the output, you'll find options to open the app in a
@@ -30,7 +45,7 @@ You can start developing by editing the files inside the **app** directory. This
 When you're ready, run:
 
 ```bash
-npm run reset-project
+bun run reset-project
 ```
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
