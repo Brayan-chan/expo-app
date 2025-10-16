@@ -11,9 +11,11 @@
  */
 
 import { useLanguage } from '@/contexts/LanguageContext';
-import { MapPin, Thermometer, Droplets, AlertTriangle } from 'lucide-react-native';
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { MapPin, Thermometer, Droplets, AlertTriangle, ChevronDown, Search } from 'lucide-react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, Image, TextInput, Modal, FlatList } from 'react-native';
 import { Stack } from 'expo-router';
+import { MOCK_HIVES, Hive } from '@/mocks/hives';
+import { useState, useMemo } from 'react';
 
 /**
  * Pantalla principal de la aplicación
@@ -29,6 +31,20 @@ import { Stack } from 'expo-router';
 export default function HomeScreen() {
   // Hooks para manejo de idiomas
   const { t, language, toggleLanguage } = useLanguage();
+  const [selectedHive, setSelectedHive] = useState<Hive>(MOCK_HIVES[0]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredHives = useMemo(() => {
+    if (!searchQuery.trim()) return MOCK_HIVES;
+    const query = searchQuery.toLowerCase();
+    return MOCK_HIVES.filter(
+      (hive) =>
+        hive.name.toLowerCase().includes(query) ||
+        hive.id.toLowerCase().includes(query) ||
+        hive.location.toLowerCase().includes(query)
+    );
+  }, [searchQuery]);
 
   return (
     <>
@@ -36,7 +52,7 @@ export default function HomeScreen() {
         options={{
           headerShown: true,
           headerStyle: {
-            backgroundColor: '#B8D4D0',
+            backgroundColor: '#1a1e4bff',
           },
           headerShadowVisible: false,
           title: '',
@@ -59,18 +75,30 @@ export default function HomeScreen() {
         }}
       />
       <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        <View style={styles.hiveInfoCard}>
-          <Text style={styles.hiveInfoText}>
-            {t.hiveId}: A002 · {t.status}: {t.healthy}
-          </Text>
-        </View>
-
-        <View style={styles.pesticideCard}>
+        <TouchableOpacity
+          style={styles.hiveSelector}
+          onPress={() => setIsModalVisible(true)}
+          activeOpacity={0.7}
+        >
+          <View style={styles.hiveSelectorContent}>
+            <View>
+              <Text style={styles.hiveSelectorLabel}>{t.hiveId}</Text>
+              <Text style={styles.hiveSelectorValue}>
+                {selectedHive.id} · {selectedHive.status === 'healthy' ? t.healthy : t.alert}
+              </Text>
+            </View>
+            <ChevronDown size={24} color="#2C3E50" strokeWidth={2} />
+          </View>
+        </TouchableOpacity>
+        
+        <View style={[styles.pesticideCard, selectedHive.pesticidesDetected && styles.pesticideCardAlert]}>
           <Text style={styles.pesticideTitle}>{t.pesticideAlert}</Text>
 
           <View style={styles.pesticideContent}>
             <AlertTriangle size={32} color="#2C3E50" strokeWidth={2} />
-            <Text style={styles.pesticideText}>{t.noPesticidesDetected}</Text>
+            <Text style={styles.pesticideText}>
+              {selectedHive.pesticidesDetected ? t.pesticidesDetected : t.noPesticidesDetected}
+            </Text>
           </View>
         </View>
 
@@ -80,30 +108,102 @@ export default function HomeScreen() {
           <View style={styles.temperatureRow}>
             <View style={styles.temperatureLeft}>
               <Thermometer size={28} color="#2C3E50" strokeWidth={2} />
-              <Text style={styles.temperatureValue}>35.8°C</Text>
+              <Text style={styles.temperatureValue}>{selectedHive.internalTemp}°C</Text>
             </View>
 
             <View style={styles.locationBadge}>
               <MapPin size={24} color="#2C3E50" strokeWidth={2} />
             </View>
           </View>
-
           <View style={styles.locationInfo}>
             <Text style={styles.locationLabel}>{t.location}:</Text>
-            <Text style={styles.locationValue}>{t.hive} 1</Text>
+            <Text style={styles.locationValue}>{selectedHive.location}</Text>
           </View>
 
           <View style={styles.humidityRow}>
-            <Thermometer size={24} color="#2C3E50" strokeWidth={2} />
-            <Text style={styles.humidityValue}>68%</Text>
+            <Droplets size={24} color="#2C3E50" strokeWidth={2} />
+            <Text style={styles.humidityValue}>{selectedHive.internalHumidity}%</Text>
           </View>
 
           <View style={styles.humidityLabel}>
-            <Droplets size={20} color="#2C3E50" strokeWidth={2} />
+            <Text style={styles.humidityText}>{t.humidity}</Text>
+          </View>
+        </View>
+        <View style={styles.environmentCard}>
+          <Text style={styles.cardTitle}>{t.externalTemperature}</Text>
+
+          <View style={styles.temperatureRow}>
+            <View style={styles.temperatureLeft}>
+              <Thermometer size={28} color="#2C3E50" strokeWidth={2} />
+              <Text style={styles.temperatureValue}>{selectedHive.externalTemp}°C</Text>
+            </View>
+          </View>
+
+          <View style={styles.humidityRow}>
+            <Droplets size={24} color="#2C3E50" strokeWidth={2} />
+            <Text style={styles.humidityValue}>{selectedHive.externalHumidity}%</Text>
+          </View>
+           <View style={styles.humidityLabel}>
             <Text style={styles.humidityText}>{t.humidity}</Text>
           </View>
         </View>
       </ScrollView>
+
+      <Modal
+        visible={isModalVisible}
+        animationType='slide'
+        presentationStyle='pageSheet'
+        onRequestClose={() => setIsModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalHeader}>
+            <Text style={styles.modalTitle}>{t.selectHive}</Text>
+            <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+              <Text style={styles.modalCloseButton}>✕</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.searchContainer}>
+            <Search size={20} color="#5A6C6C" strokeWidth={2} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder={t.searchHive}
+              placeholderTextColor="#5A6C6C"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
+          </View>
+          <FlatList
+            data={filteredHives}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.hiveList}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={[
+                  styles.hiveItem,
+                  selectedHive.id === item.id && styles.hiveItemSelected,
+                ]}
+                onPress={() => {
+                  setSelectedHive(item);
+                  setIsModalVisible(false);
+                  setSearchQuery('');
+                }}
+              >
+                <View style={styles.hiveItemContent}>
+                  <Text style={styles.hiveItemName}>{item.name}</Text>
+                  <Text style={styles.hiveItemDetails}>
+                    {t.hiveId}: {item.id} · {item.status === 'healthy' ? t.healthy : t.alert}
+                  </Text>
+                </View>
+                {selectedHive.id === item.id && (
+                  <View style={styles.checkmark}>
+                    <Text style={styles.checkmarkText}>✓</Text>
+                  </View>
+                )}
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      </Modal>
     </>
   );
 }
@@ -111,7 +211,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#B8D4D0',
+    backgroundColor: '#1a1e4bff',
   },
   contentContainer: {
     padding: 16,
@@ -130,7 +230,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 22,
     fontWeight: '600' as const,
-    color: '#2C3E50',
+    color: '#F7D116',
   },
   languageButton: {
     backgroundColor: 'rgba(255, 255, 255, 0.5)',
@@ -144,16 +244,27 @@ const styles = StyleSheet.create({
     fontWeight: '600' as const,
     color: '#2C3E50',
   },
-  hiveInfoCard: {
+  hiveSelector: {
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 16,
     marginBottom: 16,
   },
-  hiveInfoText: {
-    fontSize: 15,
-    color: '#2C3E50',
+  hiveSelectorContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  hiveSelectorLabel: {
+    fontSize: 12,
+    color: '#5A6C6C',
     fontWeight: '500' as const,
+    marginBottom: 4,
+  },
+  hiveSelectorValue: {
+    fontSize: 16,
+    color: '#2C3E50',
+    fontWeight: '600' as const,
   },
   environmentCard: {
     backgroundColor: '#D1D9D9',
@@ -231,6 +342,9 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 16,
   },
+   pesticideCardAlert: {
+    backgroundColor: '#FFD6D6',
+  },
   pesticideTitle: {
     fontSize: 18,
     fontWeight: '600' as const,
@@ -247,5 +361,86 @@ const styles = StyleSheet.create({
     fontWeight: '600' as const,
     color: '#2C3E50',
     lineHeight: 22,
+  },
+  modalContainer: {
+    flex: 1,
+    backgroundColor: '#B8D4D0',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 20,
+    paddingTop: 60,
+    backgroundColor: '#B8D4D0',
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontWeight: '700' as const,
+    color: '#2C3E50',
+  },
+  modalCloseButton: {
+    fontSize: 28,
+    color: '#2C3E50',
+    fontWeight: '300' as const,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 20,
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 12,
+    gap: 12,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#2C3E50',
+  },
+  hiveList: {
+    padding: 20,
+    paddingTop: 0,
+  },
+  hiveItem: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  hiveItemSelected: {
+    backgroundColor: '#D1E7E3',
+  },
+  hiveItemContent: {
+    flex: 1,
+  },
+  hiveItemName: {
+    fontSize: 18,
+    fontWeight: '600' as const,
+    color: '#2C3E50',
+    marginBottom: 4,
+  },
+  hiveItemDetails: {
+    fontSize: 14,
+    color: '#5A6C6C',
+    fontWeight: '500' as const,
+  },
+  checkmark: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#4A9B8E',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  checkmarkText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '700' as const,
   },
 });
