@@ -32,6 +32,19 @@ interface Translations {
   pesticideAlert: string;
   pesticidesDetected: string;
   noPesticidesDetected: string;
+  weeklyHistory: string;
+  temperature: string;
+  tempVariation: string;
+  internal: string;
+  external: string;
+  internalTemp: string;
+  externalTemp: string;
+  min: string;
+  avg: string;
+  max: string;
+  humidityVariation: string;
+  internalHumidity: string;
+  externalHumidity: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -55,6 +68,19 @@ const translations: Record<Language, Translations> = {
     pesticideAlert: 'Alerta de Pesticidas',
     pesticidesDetected: 'PESTICIDAS DETECTADOS',
     noPesticidesDetected: 'NO SE DETECTARON\nPESTICIDAS',
+    weeklyHistory: 'Historial Semanal',
+    temperature: 'Temperatura',
+    tempVariation: 'Variación de Temperatura (°C)',
+    internal: 'Interna',
+    external: 'Externa',
+    internalTemp: 'Temperatura Interna',
+    externalTemp: 'Temperatura Externa',
+    min: 'Mín',
+    avg: 'Prom',
+    max: 'Máx',
+    humidityVariation: 'Variación de Humedad (%)',
+    internalHumidity: 'Humedad Interna',
+    externalHumidity: 'Humedad Externa',
   },
   maya: {
     alert: 'Xíiw',
@@ -76,6 +102,19 @@ const translations: Record<Language, Translations> = {
     pesticideAlert: "K'áax Xíiw",
     pesticidesDetected: 'PESTICIDAS DETECTADOS',
     noPesticidesDetected: "MA' YAN K'ÁAX\nXÍIW",
+    weeklyHistory: 'Sáamal K\'iin',
+    temperature: "K\'iin'",
+    tempVariation: "Jalajo'ob K'iin (°C)",
+    internal: 'Ich.',
+    external: 'Jaats.',
+    internalTemp: "Ichil K'iin",
+    externalTemp: "Jaats' K'iin",
+    min: 'Ko\'ol',
+    avg: 'Chúumil',
+    max: 'Nojoch',
+    humidityVariation: "Jalajo'ob Ja'il (%)",
+    internalHumidity: "Ichil Ja'il",
+    externalHumidity: "Jaats' Ja'il",
   },
 };
 
