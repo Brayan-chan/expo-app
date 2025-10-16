@@ -1,3 +1,11 @@
+/**
+ * @fileoverview Contexto para el manejo de idiomas en la aplicación
+ * 
+ * Este archivo implementa el sistema de internacionalización (i18n) de la aplicación,
+ * permitiendo cambiar entre español y maya. Utiliza AsyncStorage para persistir
+ * la preferencia de idioma del usuario.
+ */
+
 import createContextHook from '@nkzw/create-context-hook';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useMemo, useState } from 'react';
